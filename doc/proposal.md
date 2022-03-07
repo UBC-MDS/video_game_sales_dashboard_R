@@ -1,0 +1,26 @@
+# Video Game Sales Analytics
+
+## Motivation and purpose
+
+Our role: Data Science Consulting Company
+
+Target audience: Sales Analysts
+
+Video games started off as a method of entertainment for children, but with the course of time, and with the development of technologies such as gaming consoles, video graphics and computational processes, it has evolved attract users from every age groups, and every walks of life. At the beginning only a handful of companies created video games and it was categorized as niche, or supplementary. But fast forward today, the electronic gaming industry generated over $165 billion in 2020 alone. To stay ahead in this multi-billion dollar industry, thinking of only plots, story lines and charismatic characters with flashy costumes is not enough. Analysts, researchers and critics play a great role advocating changes which aids companies to come up with game-winning plans and ideas.
+
+We are here with our app to make the jobs of sales analysts easy, where they do not need to go through messy datasets and spending hours exploring trends and insights. Our app will show the the sales trends for each region and picture the competitive landscape for sales analysts.  
+
+## Data Description
+
+We will be visualizing a data set from [Kaggle](https://www.kaggle.com/sidtwr/videogames-sales-dataset?select=Video_Games_Sales_as_at_22_Dec_2016.csv) about sales of video games with 11563 observations. There are 16 variables in the dataset, including the name of the video games (`Name`), platform of the video games (`Platform`), the year of release of the video games (`Year_of_Release`), the genere of the video games (`Genre`), the publisher of the video games (`Publisher`), 5 binary variables indicating sales of video games in different regions (`NA_Sales`, `EU_Sales`, `JP_Sales`, `Other_Sales`, and `Global_Sales`), the aggregate score compiled by Metacritic staff (`Critic_Score`), the number of critics used in coming up with Critic_Score (`Critic_Count`), the score by Metacritic's subscribers (`User_Score`), the number of users who gave User_Score (`User_Count`), party responsible for creating the game (`Developer`), and the ESRB ratings (`Rating`). We will also derive certain useful variables such as the market shares using the sale data. 
+ 
+
+## Research questions and usage scenarios 
+
+### Example Usage 
+Shintaro is a senior sales analyst at the regional sales department of Sony Interactive Entertainment (SIE) headquartered in San Mateo, California. SIE is a wholly-owned subsidiaries of Sony Group Corporation that has other offices in London and Tokyo. The department’s function is to analyze sales of the PlayStation family of products and services and make new sales strategies based on the historical sales data. Shintaro’s group focuses on PlayStation 4 (“PS4”). On a daily basis, he is responsible for `analyzing` available historical data stored in the internal database on the regional and global sales of PS4 games. He needs to `calculate` the market share of PS4 for the past few years. He would like to `identify` what genres of PS4 video games, such as shooter or sports, generated the most sales in North America. He also needs to `spot` the game publishers, such as Electronic Arts and Namco Bandai Games, that contributed to the most sales and had the greatest number of games available in the North American market. Moreover, he needs to `examine` the competitive landscape of video game market by `analyzing` sales trends of some competitors, such as Xbox One and Wii. Last but not the least, he needs to `track` the critic scores that might potential influence the sales. 
+
+When Shintaro logs into the “Video Game Sales Analytics App”, he will see an overview line plot of historical sales in North American by clicking “North America” button or view sales in other regions by clicking “global” button. He can use the slider to select the time period of sales data he would like to analyze and use the filter on the side bar to see sales of different competitors in each region and year He can also identify the top 5 to top 10 publishers that contributed the most sales for PS4 and other competitors by looking at the bar chart and use the drop-down menu to choose how many top publishers he would like to see. Similarly, for the top game genres that generated the most sales, he can also look at another bar chart and use the drop-down menu to choose how many top genres he would like to see. He can also see the market shares of PS4 and other competitors for the past few years by choosing different years on the side bar. Lastly, he can compare the annual average critic scores of PS4 games with those of the competitors for the past few years by choosing the year he would like to examine on the side bar.       
+
+### Research questions 
+The app is designed to allow sales analyst of video game companies to identify sales trends and understand competitive landscape. It answers questions including: what was the market share of my company in a given year? What were the historical sales trends for my company and some competitors in the past few years and how did they compare with each other? What were the top publishers that contributed the most sales to my company and to the market? What were the most popular genres of games?     
