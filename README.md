@@ -1,14 +1,13 @@
 Video Game Sales Analytics Dashboard
 ================
 Amelia Tang, Alex Yinan Guo, Yike Shi, and Mahmoodur Rahman
-<br>Dashboard link: https://video-game-dashboard.herokuapp.com/ 
 
 ## Background
 
 Our dashboard visualizes North American and global sales and
 sales-related data, such as top publishers and top genres based on sales
 and market share based on sales by year. More in details in our
-[proposal](https://github.com/UBC-MDS/video_game_sales_dashboard/blob/main/doc/proposal.md).
+[proposal](https://github.com/UBC-MDS/video_game_sales_dashboard_R/blob/main/doc/proposal.md).
 
 ## Table of Content
 
@@ -28,7 +27,9 @@ yearly data.
 
 ## Dashboard Description
 
-![demo](./src/fig/demo.gif) Figure 1. Overview of the dashboard
+\[INSERT THE DEMO AFTER FINISH THE DASHBOARD\]
+
+Figure 1. Overview of the dashboard
 </p>
 
 The dashboard contains a landing page that by default shows the North
@@ -58,32 +59,11 @@ the app locally.
 
 #### Installation
 
-Clone the repository using `git clone` Install virtual environment using
-[venv](https://docs.python.org/3/library/venv.html):
-
-    # Create an venv virual environment 
-    python -m venv videogame 
-
-    # Activate the environment 
-    source videogame/bin/activate 
-
-    # Install the requirements 
-    pip install -r requirements.txt
-
-or if you would like to create the environment locally, at the project
-root:
-
-    conda env create -f videogame.yaml
-    conda activate videogame
+\[FILL IN LATER\]
 
 #### Run the app locally
 
-Run the following line from the terminal
-
-    python src/app.py
-
-By default, dash will be running at `http://127.0.0.1:8050/`, then
-access it through the web browser.
+\[FILL IN LATER\]
 
 #### Contribution Guidelines
 

@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Background
 
-Our dashboard visualizes North American and global sales and sales-related data, such as top publishers and top genres based on sales and market share based on sales by year. More in details in our [proposal](https://github.com/UBC-MDS/video_game_sales_dashboard/blob/main/doc/proposal.md).
+Our dashboard visualizes North American and global sales and sales-related data, such as top publishers and top genres based on sales and market share based on sales by year. More in details in our [proposal](https://github.com/UBC-MDS/video_game_sales_dashboard_R/blob/main/doc/proposal.md).
 
 
 ## Table of Content
@@ -29,7 +29,9 @@ Electronic video games in 2020 generated a revenue of around $165 billion. To th
 
 
 ## Dashboard Description
-![demo](./src/fig/demo.gif)
+
+[INSERT THE DEMO AFTER FINISH THE DASHBOARD]
+
   Figure 1. Overview of the dashboard
 </p>
 
@@ -40,33 +42,13 @@ The dashboard contains a landing page that by default shows the North America sa
 We are calling for developers to help us improve the existing features and implement new ones. For those who are interested in develop the `video game sales analytics` dashboard, you can follow the steps to run the app locally. 
 
 #### Installation 
-Clone the repository using `git clone`
-Install virtual environment using [venv](https://docs.python.org/3/library/venv.html):
-```
-# Create an venv virual environment 
-python -m venv videogame 
 
-# Activate the environment 
-source videogame/bin/activate 
-
-# Install the requirements 
-pip install -r requirements.txt
-```
-
-or if you would like to create the environment locally, at the project root: 
-```
-conda env create -f videogame.yaml
-conda activate videogame
-```
+[FILL IN LATER]
 
 #### Run the app locally
 
-Run the following line from the terminal
+[FILL IN LATER]
 
-```
-python src/app.py
-```
-By default, dash will be running at `http://127.0.0.1:8050/`, then access it through the web browser. 
 
 #### Contribution Guidelines 
 
