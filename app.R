@@ -19,7 +19,7 @@ app <- Dash$new(external_stylesheets = dbcThemes$BOOTSTRAP)
 
 xbox <- read.csv("data/processed/xbox.csv") %>% drop_na()
 ps4 <- read.csv("data/processed/ps4.csv") %>% drop_na()
-
+summary <- read.csv("data/processed/summary.csv")
 xbox_NA <- xbox  %>%
   select(Year, North.America)  %>%
   group_by(Year)  %>%
@@ -79,6 +79,16 @@ sidebar <- dbcCol(
         htmlBr(),
         htmlHr(),
         htmlH6("Top Genres Year", className = "Heading-5", style=list("text-align"='center')),
+        dbcCol(
+            list(
+                dccDropdown(
+                    id = "year_of_genre",
+                    options = c(2000:2020) %>%
+                        purrr::map(function(col) list(label = col, value = col)),
+                    value = 2010
+                )
+            )
+        ),
         htmlBr(),
         htmlHr(),
         htmlH6("Top Publisher Year", className = "Heading-5", style=list("text-align"='center')),
@@ -119,7 +129,13 @@ content <- dbcCol(list(
                 htmlH4("Alex NA Market Share Placeholder"))))),
             dbcRow(list(
                 dbcCol(list(
-                    htmlH4("Maeve NA Top Grene Placeholder"))),
+                    dccGraph(id='genre_plot_na'),
+                    dccDropdown(
+                        id='num_of_bar_genre_na',
+                        options = c(3, 4, 5, 6, 7, 8) %>%
+                        purrr::map(function(col) list(label = col, value = col)),
+                        value = 3)
+                    ),
                 dbcCol(list(
                     htmlH4("Maeve NA Top Publisher Placeholder"))),
                 dbcCol(list(
@@ -146,7 +162,7 @@ content <- dbcCol(list(
                 dbcCol(list(
                     htmlH4("Maeve GB Top Publisher Placeholder"))),
                 dbcCol(list(
-                    htmlH4("Alex GB Critic Score Placeholder")))))))))))
+                    htmlH4("Alex GB Critic Score Placeholder"))))))))))))
 
 # ==============================================================================
 #                            layout
@@ -221,6 +237,27 @@ app$callback(
             p <- p  %>% add_trace(y = ~global_sales.y, name = 'XBox', mode = 'lines')  %>%
                 layout(title =('Sales Trend'))
         }
+        ggplotly(p)
+    }
+)
+
+
+app$callback(
+    output('genre_plot_na', 'figure'),
+    list(input('year_of_genre', 'value'),
+         input('num_of_bar_genre_na', 'value')),
+    function(year, num) {
+        summary_na <- summary %>%
+            filter(North.America !=0) %>%
+            filter(Year == year) %>%
+            add_count(Genre)  %>%
+            distinct(Genre, n) %>%
+            arrange(desc(n)) %>%
+            slice(1:num)
+        p <- ggplot(data = summary_na, aes(y = reorder(Genre, n), x = n)) +
+                geom_bar(stat = "identity") +
+                labs(x = 'Counts', y = 'Genre') +
+                ggtitle('Top North America Genre') 
         ggplotly(p)
     }
 )
