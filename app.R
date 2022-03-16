@@ -20,6 +20,7 @@ app <- Dash$new(external_stylesheets = dbcThemes$BOOTSTRAP)
 xbox <- read.csv("data/processed/xbox.csv") %>% drop_na()
 ps4 <- read.csv("data/processed/ps4.csv") %>% drop_na()
 summary <- read.csv("data/processed/summary.csv")
+videoGame <- read.csv("data/processed/videoGame.csv")
 xbox_NA <- xbox  %>%
   select(Year, North.America)  %>%
   group_by(Year)  %>%
@@ -76,6 +77,16 @@ sidebar <- dbcCol(
         ),
         htmlHr(),
         htmlH6("Market Share Year", className = "Heading-5", style=list("text-align"='center')),
+        dbcCol(
+          list(
+            dccDropdown(
+              id = "year_of_market_share",
+              options = c(2000:2020) %>%
+                purrr::map(function(col) list(label = col, value = col)),
+              value = 2016
+            )
+          )
+        ),
         htmlBr(),
         htmlHr(),
         htmlH6("Top Genres Year", className = "Heading-5", style=list("text-align"='center')),
@@ -105,6 +116,16 @@ sidebar <- dbcCol(
         htmlBr(),
         htmlHr(),
         htmlH6("Critic Score Year", className = "Heading-5", style=list("text-align"='center')),
+        dbcCol(
+          list(
+            dccDropdown(
+              id = "year_of_critic_score",
+              options = c(2000:2020) %>%
+                purrr::map(function(col) list(label = col, value = col)),
+              value = 2016
+            )
+          )
+        ),        
         htmlBr(),
         htmlHr(),
         htmlP("
@@ -136,10 +157,11 @@ content <- dbcCol(list(
                         always_visible=TRUE,
                         placement="top")))),
             dbcCol(list(
-                htmlH4("Alex NA Market Share Placeholder"))))),
+              htmlBr(),
+              dccGraph(id='na_market_share_plot')  )))),
             dbcRow(list(
                 dbcCol(list(
-                    dccGraph(id='genre_plot_na'),
+                  dccGraph(id='genre_plot_na'),
                     dccDropdown(
                         id='num_of_bar_genre_na',
                         options = c(3, 4, 5, 6, 7, 8) %>%
@@ -147,7 +169,7 @@ content <- dbcCol(list(
                         value = 3)
                     )),
                 dbcCol(list(
-                    dccGraph(id='publisher_plot_na'),
+                  dccGraph(id='publisher_plot_na'),
                     dccDropdown(
                         id='num_of_bar_publisher_na',
                         options = c(3, 4, 5, 6, 7, 8) %>%
@@ -156,8 +178,10 @@ content <- dbcCol(list(
                     )
                     )),
                 dbcCol(list(
-                    htmlH4("Alex NA Critic Score Placeholder"))))))),
-        dccTab(label='Global', children=list(dbcRow(list(dbcCol(
+                  dccGraph(id='na_critic_score_plot'))))))),
+        dccTab(label='Global', children=list(
+          dbcRow(list(
+            dbcCol(
             list(
                 htmlBr(),
                 dccGraph(id='sales_plot_global'),
@@ -172,10 +196,11 @@ content <- dbcCol(list(
                         always_visible=TRUE,
                         placement="top")))),
             dbcCol(list(
-                htmlH4("Alex GB Market Share Placeholder"))))),
+              htmlBr(),
+              dccGraph(id='global_market_share_plot'))))),
             dbcRow(list(
                 dbcCol(list(
-                    dccGraph(id='genre_plot_global'),
+                  dccGraph(id='genre_plot_global'),
                     dccDropdown(
                         id='num_of_bar_genre_global',
                         options = c(3, 4, 5, 6, 7, 8) %>%
@@ -183,14 +208,14 @@ content <- dbcCol(list(
                         value = 3)
                     )),
                 dbcCol(list(
-                    dccGraph(id='publisher_plot_global'),
+                  dccGraph(id='publisher_plot_global'),
                     dccDropdown(
                         id='num_of_bar_publisher_global',
                         options = c(3, 4, 5, 6, 7, 8) %>%
                         purrr::map(function(col) list(label = col, value = col)),
                         value = 3))),
                 dbcCol(list(
-                    htmlH4("Alex GB Critic Score Placeholder")))))))))))
+                  dccGraph(id='global_critic_score_plot')))))))))))
 
 # ==============================================================================
 #                            layout
@@ -221,7 +246,7 @@ app$callback(
           filter(Year <= year)  %>%
             rename(Sales = NA_sales)
         p <- plot_ly(ps4_NA_yr, x = ~Year, y = ~Sales, type = 'scatter', mode = 'lines')  %>%
-         layout(title =('Sales Trend'))
+         layout(title =('North America Sales Trend'))
       } else if (company == 'xbox'){
         xbox_NA_yr <- xbox_NA  %>%
           filter(Year <= year)  %>%
@@ -234,7 +259,7 @@ app$callback(
              filter(Year <= year)
          p <- plot_ly(NA_sales_plot, x = ~Year, y = ~Sales, name = "PlayStation4", type = 'scatter', mode = 'lines')
          p <- p  %>% add_trace(y = ~NA_sales.y, name = 'XBox', mode = 'lines')  %>%
-             layout(title =('Sales Trend'))
+             layout(title =('North America Sales Trend'))
       }
       ggplotly(p)
     }
@@ -250,7 +275,7 @@ app$callback(
                 filter(Year <= year)  %>%
                 rename(Sales = global_sales)
             p <- plot_ly(ps4_global_yr, x = ~Year, y = ~Sales, type = 'scatter', mode = 'lines')  %>%
-                layout(title =('Sales Trend'))
+                layout(title =('Global Sales Trend'))
         } else if (company == 'xbox'){
             xbox_global_yr <- xbox_global  %>%
                 filter(Year <= year)  %>%
@@ -263,7 +288,7 @@ app$callback(
                 filter(Year <= year)
             p <- plot_ly(global_sales_plot, x = ~Year, y = ~Sales, name = "PlayStation4", type = 'scatter', mode = 'lines')
             p <- p  %>% add_trace(y = ~global_sales.y, name = 'XBox', mode = 'lines')  %>%
-                layout(title =('Sales Trend'))
+                layout(title =('Global Sales Trend'))
         }
         ggplotly(p)
     }
@@ -284,8 +309,8 @@ app$callback(
             slice(1:num)
         p <- ggplot(data = summary_na, aes(y = reorder(Genre, n), x = n)) +
                 geom_bar(stat = "identity") +
-                labs(x = 'Counts', y = 'Genre') +
-                ggtitle('Top North America Genre') 
+                labs(x = 'Counts', y = 'Genre')  +
+          ggtitle('North America Top Genres')
         ggplotly(p)
     }
 )
@@ -304,8 +329,8 @@ app$callback(
             slice(1:num)
         p <- ggplot(data = summary_global, aes(y = reorder(Genre, n), x = n)) +
                 geom_bar(stat = "identity") +
-                labs(x = 'Counts', y = 'Genre') +
-                ggtitle('Top Global Genre') 
+                labs(x = 'Counts', y = 'Genre')  +
+          ggtitle('Global Top Genres')
         ggplotly(p)
     }
 )
@@ -325,8 +350,8 @@ app$callback(
             slice(1:num)
         p <- ggplot(data = summary_na, aes(y = reorder(Publisher, n), x = n)) +
                 geom_bar(stat = "identity") +
-                labs(x = 'Counts', y = 'Publisher') +
-                ggtitle('Top North America Publisher') 
+                labs(x = 'Counts', y = 'Publisher')  +
+          ggtitle('North America Top Publishers')
         ggplotly(p)
     }
 )
@@ -346,13 +371,80 @@ app$callback(
         p <- ggplot(data = summary_na, aes(y = reorder(Publisher, n), x = n)) +
                 geom_bar(stat = "identity") +
                 labs(x = 'Counts', y = 'Publisher') +
-                ggtitle('Top Global Publisher') 
+          ggtitle('Global Top Publishers')
         ggplotly(p)
     }
 )
 
 
+app$callback(
+  output('na_market_share_plot', 'figure'),
+  list(input('year_of_market_share', 'value')),
+  function(year, num) {
+    p <- summary %>%
+      group_by(Year, tag) %>%
+      summarize(North.America = sum(North.America)) %>%
+      filter(Year == 2016) %>%
+      plot_ly(labels=~tag, values=~North.America, type='pie') %>% 
+      layout(title = 'North America Market Share',
+             xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+             yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)) 
+    ggplotly(p)
+  }
+)
 
 
+app$callback(
+  output('global_market_share_plot', 'figure'),
+  list(input('year_of_market_share', 'value')),
+  function(year, num) {
+    p <- summary %>%
+      group_by(Year, tag) %>%
+      summarize(Global = sum(Global)) %>%
+      filter(Year == 2016) %>%
+      plot_ly(labels=~tag, values=~Global, type='pie') %>% 
+      layout(title = 'Global Market Share',
+             xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+             yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE)) 
+    ggplotly(p)
+  }
+)
+
+app$callback(
+  output('na_critic_score_plot', 'figure'),
+  list(input('year_of_critic_score', 'value')),
+  function(year) {
+    p <- videoGame %>%
+      filter(Year == year) %>%
+      group_by(Platform) %>%
+      summarize(Critic_Score = mean(Critic_Score, na.rm=TRUE)) %>%
+      drop_na() %>%
+      ggplot(aes(x=reorder(Platform, -Critic_Score), y=Critic_Score)) +
+      geom_bar(stat="identity") +
+      labs(x = 'Platform', y = 'Critic Score') +
+      ggtitle('North America Critic Scores') 
+    
+    ggplotly(p)
+  }
+)
+
+app$callback(
+  output('global_critic_score_plot', 'figure'),
+  list(input('year_of_critic_score', 'value')),
+  function(year) {
+    p <- videoGame %>%
+      filter(Year == year) %>%
+      group_by(Platform) %>%
+      summarize(Critic_Score = mean(Critic_Score, na.rm=TRUE)) %>%
+      drop_na() %>%
+      ggplot(aes(x=reorder(Platform, -Critic_Score), y=Critic_Score)) +
+      geom_bar(stat="identity") +
+      labs(x = 'Platform', y = 'Critic Score') +
+      ggtitle('Global Critic Scores') 
+    
+    ggplotly(p)
+  }
+)
 
 app$run_server(host = '0.0.0.0')
+
