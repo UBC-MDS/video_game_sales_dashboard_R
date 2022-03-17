@@ -48,6 +48,32 @@ ps4_global <- ps4  %>%
 year_range <- seq(min(ps4_NA$Year), max(ps4_NA$Year))
 year_range_label <- setNames(as.list(as.character(year_range)), as.integer(year_range))
 
+
+# ==============================================================================
+#                           Styles
+# ==============================================================================
+# the style arguments for the sidebar. 
+SIDEBAR_STYLE = list(
+    "position"="fixed",
+    "top"=0,
+    "left"=0,
+    "bottom"=0,
+    "width"="14rem",
+    "padding"="2rem 1rem",
+    "background-color"="#ADD8E6",
+    "overflow"="scroll"
+)
+
+# the styles for the main content position it to the right of the sidebar and
+# add some padding.
+CONTENT_STYLE = list(
+    "margin-left"="2rem",
+    "margin-right"="2rem",
+    "padding"="2rem 1rem",
+    "width"="1500px",
+    "height"="1500px"
+)
+
 # ==============================================================================
 #                            sidebar
 # ==============================================================================
@@ -55,7 +81,7 @@ year_range_label <- setNames(as.list(as.character(year_range)), as.integer(year_
 sidebar <- dbcCol(
   list(
     htmlBr(),
-    htmlH4("Video Game Sales Analytics App", className = "Heading-3", style=list("text-align"='center')),
+    htmlH4("Video Game Sales Analytics", className = "Heading-3", style=list("text-align"='center')),
     htmlHr(),
     htmlP("A dashboard to analyze sales of major players in the video game industry", style=list("text-align"='center')),
     htmlHr(),
@@ -66,7 +92,7 @@ sidebar <- dbcCol(
           id = "company-select",
           options = list(
             list(label='PlayStation4', value='ps4'),
-            list(label='xbox', value='xbox'),
+            list(label='Xbox', value='xbox'),
             list(label="Both", value='xbox+ps4')
           ),
           value = c("ps4"),
@@ -144,9 +170,9 @@ sidebar <- dbcCol(
     htmlP("
         This dashboard was made by Amelia Tang, 
         Alex Yinan Guo, Yike Shi, and Mahmoodur Rahman.  
-        Last updated 2022-03-14")
+        Last updated 2022-03-18")
   ),
-  style = list("background-color" = "#ADD8E6"),
+  style = SIDEBAR_STYLE,
   md=2)
 
 # ==============================================================================
@@ -154,88 +180,113 @@ sidebar <- dbcCol(
 # ==============================================================================
 
 content <- dbcCol(list(
-  dccTabs(id="tabs", children=list(
-    dccTab(label='North America', children=list(
-      dbcRow(list(
-        dbcCol(
-          list(
+    dccTabs(id="tabs", children=list(
+        dccTab(label='North America', children=list(
+            dbcRow(list(
+                dbcCol(
+                    list(
+                        htmlBr(),
+                        dccGraph(id='sales_plot'),
+                        dccSlider(
+                            id="slider-year",
+                            min=min(xbox_NA$Year),
+                            max=max(xbox_NA$Year),
+                            step=1,
+                            value=2017,
+                            marks=year_range_label,
+                            tooltip=list(
+                                always_visible=TRUE,
+                                placement="top")))),
+                dbcCol(list(
+                    htmlBr(),
+                    dccGraph(id='na_market_share_plot'))))),
             htmlBr(),
-            dccGraph(id='sales_plot'),
-            dccSlider(
-              id="slider-year",
-              min=min(xbox_NA$Year),
-              max=max(xbox_NA$Year),
-              step=1,
-              value=2017,
-              marks=year_range_label,
-              tooltip=list(
-                always_visible=TRUE,
-                placement="top")))),
-        dbcCol(list(
-          htmlBr(),
-          dccGraph(id='na_market_share_plot'))))),
-      
-      dbcRow(list(
-        dbcCol(list(dbcRow(list(
-          dccGraph(id='genre_plot_na'),
-          dccDropdown(
-            id='num_of_bar_genre_na',
-            options = c(3, 4, 5, 6, 7, 8) %>%
-              purrr::map(function(col) list(label = col, value = col)),
-            value = 5)
-        )),
-        dbcRow(list(
-          dccGraph(id='publisher_plot_na'),
-          dccDropdown(
-            id='num_of_bar_publisher_na',
-            options = c(3, 4, 5, 6, 7, 8) %>%
-              purrr::map(function(col) list(label = col, value = col)),
-            value = 5))))),
-        dbcCol(list(dbcRow(list(
-          dccGraph(id='na_critic_score_plot'))),
-          dbcRow(list(
-            dccGraph(id='na_user_score_plot'))))))))),
-
-    dccTab(label='Global', children=list(
-      dbcRow(list(
-        dbcCol(
-          list(
+            htmlHr(),
             htmlBr(),
-            dccGraph(id='sales_plot_global'),
-            dccSlider(
-              id="slider-year2",
-              min=min(xbox_NA$Year),
-              max=max(xbox_NA$Year),
-              step=1,
-              value=2017,
-              marks=year_range_label,
-              tooltip=list(
-                always_visible=TRUE,
-                placement="top")))),
-        dbcCol(list(
-          htmlBr(),
-          dccGraph(id='global_market_share_plot'))))),
-      
-      dbcRow(list(
-        dbcCol(list(dbcRow(list(
-          dccGraph(id='genre_plot_global'),
-          dccDropdown(
-            id='num_of_bar_genre_global',
-            options = c(3, 4, 5, 6, 7, 8) %>%
-              purrr::map(function(col) list(label = col, value = col)),
-            value = 5)
-        )),
-        dbcRow(list(
-          dccGraph(id='publisher_plot_global'),
-          dccDropdown(
-            id='num_of_bar_publisher_global',
-            options = c(3, 4, 5, 6, 7, 8) %>%
-              purrr::map(function(col) list(label = col, value = col)),
-            value = 5))))),
-        dbcCol(list(dbcRow(list(
-          dccGraph(id='global_critic_score_plot'))),
-          dbcRow(list(
-            dccGraph(id='global_user_score_plot')))))))))))))
+            dbcRow(list(
+                dbcCol(list(dbcRow(list(
+                    dccGraph(id='genre_plot_na'),
+                    htmlH6("Number of Top Genres to Display"),
+                    dccDropdown(
+                        id='num_of_bar_genre_na',
+                        options = c(3, 4, 5, 6, 7, 8) %>%
+                            purrr::map(function(col) list(label = col, value = col)),
+                        value = 5)
+                )),
+                htmlBr(),
+                htmlBr(),
+                htmlBr(),
+                dbcRow(list(
+                    dccGraph(id='publisher_plot_na'),
+                    htmlH6("Number of Top Publishers to Display"),
+                    dccDropdown(
+                        id='num_of_bar_publisher_na',
+                        options = c(3, 4, 5, 6, 7, 8) %>%
+                            purrr::map(function(col) list(label = col, value = col)),
+                        value = 5))))),
+                dbcCol(list(dbcRow(list(
+                    dccGraph(id='na_critic_score_plot'))),
+                    htmlBr(),
+                    htmlBr(),
+                    htmlBr(),
+                    htmlBr(),
+                    htmlBr(),
+                    dbcRow(list(
+                        dccGraph(id='na_user_score_plot'))))))))),
+        
+        dccTab(label='Global', children=list(
+            dbcRow(list(
+                dbcCol(
+                    list(
+                        htmlBr(),
+                        dccGraph(id='sales_plot_global'),
+                        dccSlider(
+                            id="slider-year2",
+                            min=min(xbox_NA$Year),
+                            max=max(xbox_NA$Year),
+                            step=1,
+                            value=2017,
+                            marks=year_range_label,
+                            tooltip=list(
+                                always_visible=TRUE,
+                                placement="top")))),
+                dbcCol(list(
+                    htmlBr(),
+                    dccGraph(id='global_market_share_plot'))))),
+            htmlBr(),
+            htmlHr(),
+            htmlBr(),
+            dbcRow(list(
+                dbcCol(list(dbcRow(list(
+                    dccGraph(id='genre_plot_global'),
+                    htmlH6("Number of Top Genres to Display"),
+                    dccDropdown(
+                        id='num_of_bar_genre_global',
+                        options = c(3, 4, 5, 6, 7, 8) %>%
+                            purrr::map(function(col) list(label = col, value = col)),
+                        value = 5)
+                )),
+                htmlBr(),
+                htmlBr(),
+                htmlBr(),
+                dbcRow(list(
+                    dccGraph(id='publisher_plot_global'),
+                    htmlH6("Number of Top Publishers to Display"),
+                    dccDropdown(
+                        id='num_of_bar_publisher_global',
+                        options = c(3, 4, 5, 6, 7, 8) %>%
+                            purrr::map(function(col) list(label = col, value = col)),
+                        value = 5))))),
+                dbcCol(list(dbcRow(list(
+                    dccGraph(id='global_critic_score_plot'))),
+                    htmlBr(),
+                    htmlBr(),
+                    htmlBr(),
+                    htmlBr(),
+                    htmlBr(),
+                    dbcRow(list(
+                        dccGraph(id='global_user_score_plot')))))))))))), 
+    style=CONTENT_STYLE)
 
 # ==============================================================================
 #                            layout
@@ -245,14 +296,9 @@ content <- dbcCol(list(
 app$layout(
   dbcContainer(
     list(dbcRow(
-      list(sidebar, content),
-      className = "h-100"
-    )),
-    fluid = TRUE,
-    style = list("height" = "100vh", "width"="80%")
-  )
-)
-
+      list(sidebar, content)
+     # className = "h-100"
+    ))))
 # ==============================================================================
 #                            Callbacks and backend
 # ==============================================================================
