@@ -2,6 +2,8 @@ Video Game Sales Analytics Dashboard
 ================
 Amelia Tang, Alex Yinan Guo, Yike Shi, and Mahmoodur Rahman
 
+Dashboard link https://video-game-dashboard-r.herokuapp.com/
+
 ## Background
 
 Our dashboard visualizes North American and global sales and
