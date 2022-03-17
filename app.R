@@ -328,7 +328,7 @@ app$callback(
       arrange(desc(n)) %>%
       slice(1:num)
     p <- ggplot(data = summary_na, aes(y = reorder(Genre, n), x = n)) +
-      geom_bar(stat = "identity") +
+      geom_bar(stat = "identity", fill = "#4E78A5") +
       labs(x = 'Counts', y = 'Genre')  +
       ggtitle('North America Top Genres')+
       theme(plot.title = element_text(hjust = 0.5))
@@ -349,7 +349,7 @@ app$callback(
       arrange(desc(n)) %>%
       slice(1:num)
     p <- ggplot(data = summary_global, aes(y = reorder(Genre, n), x = n)) +
-      geom_bar(stat = "identity") +
+      geom_bar(stat = "identity", fill = "#4E78A5") +
       labs(x = 'Counts', y = 'Genre')  +
       ggtitle('Global Top Genres')+
       theme(plot.title = element_text(hjust = 0.5))
@@ -371,7 +371,7 @@ app$callback(
       arrange(desc(n)) %>%
       slice(1:num)
     p <- ggplot(data = summary_na, aes(y = reorder(Publisher, n), x = n)) +
-      geom_bar(stat = "identity") +
+      geom_bar(stat = "identity", fill = "#4E78A5") +
       labs(x = 'Counts', y = 'Publisher')  +
       ggtitle('North America Top Publishers')+
       theme(plot.title = element_text(hjust = 0.5))
@@ -392,7 +392,7 @@ app$callback(
       arrange(desc(n)) %>%
       slice(1:num)
     p <- ggplot(data = summary_na, aes(y = reorder(Publisher, n), x = n)) +
-      geom_bar(stat = "identity") +
+      geom_bar(stat = "identity", fill = "#4E78A5") +
       labs(x = 'Counts', y = 'Publisher') +
       ggtitle('Global Top Publishers')+
       theme(plot.title = element_text(hjust = 0.5))
@@ -444,7 +444,7 @@ app$callback(
       summarize(Critic_Score = mean(Critic_Score, na.rm=TRUE)) %>%
       drop_na() %>%
       ggplot(aes(x=reorder(Platform, -Critic_Score), y=Critic_Score)) +
-      geom_bar(stat="identity") +
+      geom_bar(stat="identity", fill = "#4E78A5") +
       labs(x = 'Platform', y = 'Critic Score') +
       ggtitle('North America Critic Scores') +
       theme(plot.title = element_text(hjust = 0.5))
@@ -463,7 +463,7 @@ app$callback(
       summarize(Critic_Score = mean(Critic_Score, na.rm=TRUE)) %>%
       drop_na() %>%
       ggplot(aes(x=reorder(Platform, -Critic_Score), y=Critic_Score)) +
-      geom_bar(stat="identity") +
+      geom_bar(stat="identity", fill = "#4E78A5") +
       labs(x = 'Platform', y = 'Critic Score') +
       ggtitle('Global Critic Scores') +
       theme(plot.title = element_text(hjust = 0.5))
@@ -482,7 +482,7 @@ app$callback(
       summarize(User_Score = mean(User_Score, na.rm=TRUE)) %>%
       drop_na() %>%
       ggplot(aes(x=reorder(Platform, -User_Score), y=User_Score)) +
-      geom_bar(stat="identity") +
+      geom_bar(stat="identity", fill = "#4E78A5") +
       labs(x = 'Platform', y = 'User score') +
       ggtitle('North America User Scores') +
       theme(plot.title = element_text(hjust = 0.5))
@@ -501,7 +501,7 @@ app$callback(
       summarize(User_Score = mean(User_Score, na.rm=TRUE)) %>%
       drop_na() %>%
       ggplot(aes(x=reorder(Platform, -User_Score), y=User_Score)) +
-      geom_bar(stat="identity") +
+      geom_bar(stat="identity", fill = "#4E78A5") +
       labs(x = 'Platform', y = 'User score') +
       ggtitle('Global User Scores') +
       theme(plot.title = element_text(hjust = 0.5))
