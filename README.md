@@ -29,7 +29,7 @@ yearly data.
 
 ## Dashboard Description
 
-\[INSERT THE DEMO AFTER FINISH THE DASHBOARD\]
+![demo](./fig/dash.gif) 
 
 Figure 1. Overview of the dashboard
 </p>
@@ -59,13 +59,15 @@ and implement new ones. For those who are interested in develop the
 `video game sales analytics` dashboard, you can follow the steps to run
 the app locally.
 
-#### Installation
+#### Installation and Run the app locally
 
-\[FILL IN LATER\]
+After cloning this repository run the following commands to install the dependencies, and run the app:
 
-#### Run the app locally
-
-\[FILL IN LATER\]
+    # Install R packages 
+    Rscript init.R
+    
+    # Run Dash
+    Rscript app.R
 
 #### Contribution Guidelines
 
