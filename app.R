@@ -61,7 +61,8 @@ SIDEBAR_STYLE = list(
     "width"="14rem",
     "padding"="2rem 1rem",
     "background-color"="#ADD8E6",
-    "overflow"="scroll"
+    "overflow"="scroll",
+    "text-align" = "center"
 )
 
 # the styles for the main content position it to the right of the sidebar and
@@ -71,7 +72,7 @@ CONTENT_STYLE = list(
     "margin-right"="2rem",
     "padding"="2rem 1rem",
     "width"="1500px",
-    "height"="1500px"
+    "height"="1800px"
 )
 
 # ==============================================================================
@@ -84,6 +85,19 @@ sidebar <- dbcCol(
     htmlH4("Video Game Sales Analytics", className = "Heading-3", style=list("text-align"='center')),
     htmlHr(),
     htmlP("A dashboard to analyze sales of major players in the video game industry", style=list("text-align"='center')),
+    dbcCollapse(
+        dbcCard(dbcCardBody("We included sales trend plots and market shares charts for North American and Global, top publishers and top genres for each year as well as users and critic scores for each year. ")),
+        id = "collapse",
+        is_open = FALSE
+    ),
+    dbcButton(
+        "Read more",
+        id = "collapse-button",
+        size="sm",
+        className = "mb-3",
+        color = "secondary",
+        n_clicks = 0
+    ),
     htmlHr(),
     htmlH6("Sales Trend Companies", className = "Heading-5", style=list("text-align"='center')),
     dbcCol(
@@ -99,7 +113,7 @@ sidebar <- dbcCol(
         )
       ),
       width = 15,
-      style = list("padding" = "10px 10px 10px 0px"),
+      #style = list("padding" = "10px 10px 10px 0px"),
     ),
     htmlHr(),
     htmlH6("Market Share Year", className = "Heading-5", style=list("text-align"='center')),
@@ -554,6 +568,20 @@ app$callback(
     
     ggplotly(p)
   }
+)
+
+app$callback(
+    output("collapse", "is_open"),
+    list(
+        input("collapse-button", "n_clicks"),
+        state("collapse", "is_open")
+    ),
+    function(n, is_open) {
+        if (n > 0) {
+            return(!is_open)
+        }
+        return(is_open)
+    }
 )
 
 app$run_server(host = '0.0.0.0')
