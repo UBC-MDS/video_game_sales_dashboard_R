@@ -11,6 +11,7 @@ library(ggplot2)
 library(tidyr)
 
 app <- Dash$new(external_stylesheets = dbcThemes$BOOTSTRAP)
+app$title("Video Game Sales Analytic")
 
 
 # ==============================================================================
@@ -86,7 +87,7 @@ sidebar <- dbcCol(
     htmlHr(),
     htmlP("A dashboard to analyze sales of major players in the video game industry", style=list("text-align"='center')),
     dbcCollapse(
-        dbcCard(dbcCardBody("We included sales trend plots and market shares charts for North American and Global, top publishers and top genres for each year as well as users and critic scores for each year. ")),
+        dbcCard(dbcCardBody("On the dashboard, you will find sales trend plots and market shares charts for North American and Global, top publishers and top genres for each year as well as users and critic scores for each year.")),
         id = "collapse",
         is_open = FALSE
     ),
@@ -184,7 +185,8 @@ sidebar <- dbcCol(
     htmlP("
         This dashboard was made by Amelia Tang, 
         Alex Yinan Guo, Yike Shi, and Mahmoodur Rahman.  
-        Last updated 2022-03-18")
+        Last updated 2022-03-18"),
+    dccMarkdown("[Github Repository](https://github.com/UBC-MDS/video_game_sales_dashboard_R)")
   ),
   style = SIDEBAR_STYLE,
   md=2)
