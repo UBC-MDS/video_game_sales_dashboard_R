@@ -146,7 +146,7 @@ sidebar <- dbcCol(
       list(
         dccDropdown(
           id = "year_of_critic_score",
-          options = c(2013:2018) %>%
+          options = c(2013:2016) %>%
             purrr::map(function(col) list(label = col, value = col)),
           value = 2016
         )
@@ -159,7 +159,7 @@ sidebar <- dbcCol(
       list(
         dccDropdown(
           id = "year_of_user_score",
-          options = c(2013:2018) %>%
+          options = c(2013:2016) %>%
             purrr::map(function(col) list(label = col, value = col)),
           value = 2016
         )
@@ -454,7 +454,7 @@ app$callback(
     p <- summary %>%
       group_by(Year, tag) %>%
       summarize(North.America = sum(North.America)) %>%
-      filter(Year == 2016) %>%
+      filter(Year == year) %>%
       plot_ly(labels=~tag, values=~North.America, type='pie') %>% 
       layout(title = 'North America Market Share',
              xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
@@ -471,7 +471,7 @@ app$callback(
     p <- summary %>%
       group_by(Year, tag) %>%
       summarize(Global = sum(Global)) %>%
-      filter(Year == 2016) %>%
+      filter(Year == year) %>%
       plot_ly(labels=~tag, values=~Global, type='pie') %>% 
       layout(title = 'Global Market Share',
              xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
