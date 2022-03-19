@@ -29,7 +29,7 @@ yearly data.
 
 ## Dashboard Description
 
-![demo](./fig/demo.gif) Figure 1. Overview of the dashboard
+![demo](./fig/demo_r.gif) Figure 1. Overview of the dashboard
 </p>
 
 The dashboard contains a landing page that by default shows the North
