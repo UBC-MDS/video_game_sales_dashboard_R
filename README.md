@@ -61,11 +61,11 @@ the app locally.
 
 After cloning this repository run the following commands to install the dependencies, and run the app:
 
-    # Install R packages 
-    Rscript init.R
+    # Install R packages at the project root  
+    R -f init.R
     
-    # Run Dash
-    Rscript app.R
+    # Run the Dashboard
+    R -f app.R
 
 #### Contribution Guidelines
 
@@ -85,4 +85,4 @@ sales to examine the relationship between the two
 ## License
 
 `Video Game Sales Analytics Dashboard` dashboard is licensed under the
-terms of the MIT license.
+terms of [the MIT license](https://github.com/UBC-MDS/video_game_sales_dashboard_R/blob/main/LICENSE).
